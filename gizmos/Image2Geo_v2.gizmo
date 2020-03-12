@@ -1,0 +1,114 @@
+#! C:/Program Files/Nuke10.5v4/nuke-10.5.4.dll -nx
+version 10.5 v4
+Gizmo {
+ addUserKnob {20 User}
+ addUserKnob {6 DepthOnly l "Depth Only" t "If we are only interested in displacing depth" +STARTLINE}
+ DepthOnly true
+ addUserKnob {2 SaveAs t "Use frame padding to export animated sequence.\n\nNo frame padding will result in only the Start Frame being exported."}
+ SaveAs C:/Users/Harvey/Desktop/geob.obj
+ addUserKnob {26 Divider1 l "" +STARTLINE}
+ addUserKnob {3 FS l FrameStart}
+ FS 6
+ addUserKnob {3 FE l FrameEnd}
+ FE 6
+ addUserKnob {26 Divider2 l "" +STARTLINE}
+ addUserKnob {6 CreateOnComplete t "Check box to load obj file after generation" +STARTLINE}
+ CreateOnComplete true
+ addUserKnob {26 ""}
+ addUserKnob {22 Render T "#FrameStart\nFS=nuke.thisNode()\['FS'].value()\nFS=int(FS)\nFE=nuke.thisNode()\['FE'].value()\nFE=int(FE)\nDepthOnly=nuke.thisNode()\['DepthOnly'].value()\n#filenames\nPath=nuke.thisNode()\['SaveAs'].value()\nCurrent=nuke.thisNode()\nwith nuke.thisNode():\n\ttmp=nuke.toNode(\"PostEdit\")\n\n\n#input node\n#tmp =nuke.thisNode().input(0)\nwidth = tmp.width()\nheight = tmp.height()\n#print width\n#print height\n\n\n\n\n\n#####single or multiframe\nif Path.split('.')\[-2]\[0]<>'%' or Path.split('.')\[-2]\[0]<>'#':\n    fr = nuke.FrameRange(FS, FS, 1)\nelse:\n    Range=xrange(int(Start),int(End+1))\n    fr = nuke.FrameRange(FS, FE, 1)\n\n\n###Loop for each frame##########\nfor f in fr:\n\n#### actual   script\n    index=0\n    \n\n    target=tmp\n    arraysize=width*height\n    vertices = \[\"v 0.000000000e+00 0.000000000e+00 0.000000000e+00\"]*arraysize\n    \n    # Vertex list - offset=0//\"\"\"\n    \n    for y in xrange(0, height): #GOES UPTO HEIGHT -1\n    \n        for x in xrange(0, width):\n            if DepthOnly==True:\n                XYZ= \[x/width, y/width,  target.sample('blue', x, y,1,1,f) ]\n            else:    \n    \n                XYZ= ( target.sample('red', x, y,1,1,f), target.sample('green', x, y,1,1,f),  target.sample('blue', x, y,1,1,f) )\n            \n            vertices\[index]=( \"v %.9e %.9e %.9e\" % (XYZ\[0], XYZ\[1], XYZ\[2]) )\n            index=index+1\n                \n    \n    textureCoords = \[]\n    \n    # Point texture coordinates - offset=0\n    \n    for y in xrange(0, height):\n    \n        for x in xrange(0, width):\n    \n            XY = (  (x) / (1.0 * (width-1)),\n    \n                    (y) / (1.0 * (height-1)))\n    \n            textureCoords.append( \"vt %.9e %.9e\" % (XY\[0], XY\[1]) )\n    \n    \n    # normals = \[]\n    \n    normals = \[\"vn 0.000000 0.000000 1.000000\"] * (height * width)\n    \n    \n    \n    faces = \[]\n    \n    # Faces\n    \n    for y in xrange(0,height-1):\n        for x in xrange(1, width):\n            z=y*width+x\n            NT = \[ \"%s/%s/%s\" % (z,z,z),\n                    \"%s/%s/%s\" % (z+1,z+1,z+1),\n                    \"%s/%s/%s\" % (z+width+1,z+width+1,z+width+1),\n                    \"%s/%s/%s\" % (z+width,z+width,z+width) ]\n            faces.append( 'f %s' % (' '.join(NT)) )\n    \n    \n    \n    #write to file\n    \n    #write to file\n    if Path.split('.')\[-2]\[0]=='%':\n        path=Path.split('.')\n        Padding=path\[-2]\n        print Padding\n        Padding=Padding\[1:-1]\n        print Padding\n        fPad=str(f).rjust(int(Padding), '0')\n        path\[-2]=fPad\n        x='.'  \n        path=x.join(path)\n    elif Path.split('.')\[-2]\[0]=='#':\n        fPad=str(f).rjust(int(len(Path.split('.')\[-2])), '0')\n        path\[-2]=fPad\n        x='.'  \n        path=x.join(path)\n    else:\n        path=Path\n    #print(path)\n    open(path,\"w\").close()    \n    with open(path, 'w') as myfile:\n\n    \n        # Specify the order we want to write each list to file in\n    \n        allData = \[\n    \n            vertices,\n    \n            textureCoords,\n    \n            normals,\n    \n            faces\n    \n        ]\n    \n    \n    \n        for data in allData:\n    \n            # Write out the data in one big chunk (each list item is separated by a newline)\n    \n            myfile.write('\\n'.join(data))\n    \n    \n    \n            # Add a bunch of new lines\n    \n            myfile.write('\\n' * 3)\n\tmyfile.close()\n\n####create output#######\nCreateONComplete=Current\['CreateOnComplete'].value()\nif CreateONComplete==True:\n    r = nuke.toNode(\"root\")\n    with r:\n            out=nuke.nodes.ReadGeo()\n            out\['file'].setValue(Path)\n            out.setInput(0,Current)" +STARTLINE}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos -216
+  ypos 15
+ }
+ Dot {
+  name Dot1
+  xpos -182
+  ypos 95
+ }
+set N48215c00 [stack 0]
+ Dot {
+  name Dot5
+  xpos -183
+  ypos 291
+ }
+set N48215800 [stack 0]
+push $N48215c00
+ Shuffle {
+  red black
+  green black
+  blue black
+  alpha black
+  name Shuffle1
+  xpos -284
+  ypos 91
+ }
+ Dot {
+  name Dot2
+  xpos -317
+  ypos 95
+ }
+set N48215000 [stack 0]
+ Dot {
+  name Dot3
+  xpos -317
+  ypos 187
+ }
+ Ramp {
+  p0 {0 0}
+  p1 {{curve} {height}}
+  name Ramp2
+  xpos -427
+  ypos 183
+ }
+push $N48215000
+ Ramp {
+  p0 {0 0}
+  p1 {{width} 0}
+  name Ramp1
+  xpos -546
+  ypos 91
+ }
+ Copy {
+  inputs 2
+  from0 rgba.green
+  to0 rgba.green
+  name Copy1
+  xpos -546
+  ypos 177
+ }
+ Copy {
+  inputs 2
+  from0 rgba.blue
+  to0 rgba.blue
+  name Copy2
+  xpos -546
+  ypos 281
+ }
+ Dot {
+  name Dot4
+  xpos -512
+  ypos 368
+ }
+push $N48215800
+ Switch {
+  inputs 2
+  which {{parent.DepthOnly}}
+  name Switch1
+  xpos -217
+  ypos 364
+ }
+ Grade {
+  name PostEdit
+  xpos -217
+  ypos 443
+ }
+push $N48215c00
+ Output {
+  name Output1
+  xpos -61
+  ypos 91
+ }
+end_group
