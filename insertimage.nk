@@ -1,0 +1,15 @@
+set cut_paste_input [stack 0]
+version 11.3 v5
+BackdropNode {
+inputs 0
+name DonJuanIcons
+tile_color 0x333333ff
+label "<img src=\"/job/jj/vault/vfx_image_sequence/dev/sandbox/sandbox_aheraud/asset_precomp/DonJuanIcons_default_888x460_mtl.jj.asset.1441881/v008/main/sandbox_aheraud_precomp_DonJuanIcons_v008_main.1001.png\">"
+note_font_size 42
+selected true
+xpos 4767
+ypos -61112
+bdwidth 40
+bdheight 20
+z_order 35
+}
