@@ -7,3 +7,7 @@ nuke.pluginAddPath('./gizmo')
 nuke.pluginAddPath('./icons')
 nuke.pluginAddPath('./python')
 
+
+### adds new LUT ###
+nuke.ViewerProcess.register("NAME AS IT APPEARS IN THE LIST", nuke.createNode, ("Vectorfield","vfield_file PATH TO YOUR/LUT.cube colorspaceIn AlexaV3LogC"))
+
