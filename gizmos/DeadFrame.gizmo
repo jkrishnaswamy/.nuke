@@ -1,0 +1,215 @@
+set cut_paste_input [stack 0]
+version 11.2 v4
+push $cut_paste_input
+Group {
+name DeadFrame
+help "This tool fixes broken frames from a render or otherwise.  Generally speaking the FrameBlend method is the most reliable way to use this tool, but occasionally one of the motion estimation methods will give good results, especially when using Kronos under nuke 9.\n\nEnter or select the number of the Dead Frame, then you can choose from the following Fix Methods:\n- Frame Blend (aka mix at .5) the previous and next frames\n- Hold the previous frame\n- Hold the next frame\n- Motion Estimate - creates a new frame based on the motion between the previous and next frames using an Oflow node.\n- Motion Estimate (Kronos...)  -  creates a new frame based on the motion between the previous and next frames using a Kronos node.  (this setting is for NukeX 9 only.)"
+knobChanged "\nk = nuke.thisKnob()\nif k.name() == 'fixMethod':\n    if k.getValue() == 4.0:\n        if nuke.NUKE_VERSION_MAJOR != 9:\n            k.setValue(3)\n            nuke.message('This feature is only available in NukeX 9 or higher')\n"
+tile_color 0x557fffff
+selected true
+xpos -423
+ypos 1571
+addUserKnob {20 DeadFrameTab l DeadFrame}
+addUserKnob {3 deadFrame l "Dead Frame"}
+deadFrame 1001
+addUserKnob {4 fixMethod l "Fix Method" t "Frame Blend: Dissolves previous and next frames.\nHold Frame Before: Holds the frame before the dead frame\nHold Frame After: Holds the frame after the dead frame\t\nMotion Estimate (Oflow): tries to rebuild the dead frame from the frames around it (beta)" -STARTLINE M {"Frame Blend" "Hold Frame Before" "Hold Frame After" "Motion Estimate (Oflow)" "Motion Estimate (Kronos Nukex 9 only)" "" "" ""}}
+addUserKnob {22 setCurrentFrame l "Set to Current Frame" T "n = nuke.thisNode()\nn\['deadFrame'].setValue(nuke.frame())" +STARTLINE}
+}
+BackdropNode {
+inputs 0
+name BackdropNode1
+tile_color 0x7171c600
+label "Motion Estimate\n(Oflow)"
+note_font_size 42
+xpos 829
+ypos -520
+bdwidth 288
+bdheight 430
+}
+BackdropNode {
+inputs 0
+name BackdropNode2
+tile_color 0xaaaaaa00
+label "Frame Blend\n"
+note_font_size 42
+xpos -2
+ypos -514
+bdwidth 251
+bdheight 419
+}
+BackdropNode {
+inputs 0
+name BackdropNode3
+tile_color 0xaaaaaa00
+label "Hold Frame \nBefore"
+note_font_size 42
+xpos 284
+ypos -513
+bdwidth 232
+bdheight 417
+}
+BackdropNode {
+inputs 0
+name BackdropNode4
+tile_color 0xaaaaaa00
+label "Hold Frame\nAfter"
+note_font_size 42
+xpos 554
+ypos -515
+bdwidth 232
+bdheight 417
+}
+BackdropNode {
+inputs 0
+name BackdropNode5
+tile_color 0x7171c600
+label "Motion Estimate\n(Kronos NukeX 9)"
+note_font_size 42
+xpos 1162
+ypos -519
+bdwidth 353
+bdheight 440
+}
+Input {
+inputs 0
+name Input1
+xpos -169
+ypos -692
+}
+Dot {
+name Dot10
+xpos -135
+ypos -573
+}
+set N21491220 [stack 0]
+Dot {
+name Dot2
+xpos 114
+ypos -573
+}
+set Nd8f5f30 [stack 0]
+Dot {
+name Dot1
+xpos 408
+ypos -573
+}
+set Ne8d5330 [stack 0]
+Dot {
+name Dot4
+xpos 663
+ypos -573
+}
+set N1f0335c0 [stack 0]
+Dot {
+name Dot5
+xpos 901
+ypos -573
+}
+FrameHold {
+first_frame {{frame==deadFrame?frame-1:frame}}
+name FrameHold5
+xpos 867
+ypos -372
+}
+Dot {
+name Dot6
+xpos 901
+ypos -322
+}
+set Nd7b3060 [stack 0]
+Dot {
+name Dot7
+xpos 1332
+ypos -322
+}
+Kronos {
+input.first 240
+input.last 341
+Advanced 1
+flickerCompensation true
+name Kronos1
+xpos 1298
+ypos -227
+}
+push $Nd7b3060
+OFXuk.co.thefoundry.time.oflow_v100 {
+method Motion
+timing "Source Frame"
+timingFrame {{frame==deadFrame?frame+.5:frame}}
+timingSpeed 0.5
+filtering Normal
+warpMode Normal
+correctLuminance false
+automaticShutterTime false
+shutterTime 0
+shutterSamples 1
+vectorDetail 0.2
+smoothness 0.5
+blockSize 1
+Tolerances 0
+weightRed 0.3
+weightGreen 0.6
+weightBlue 0.1
+showVectors false
+cacheBreaker false
+name OFlow3
+xpos 867
+ypos -229
+}
+push $N1f0335c0
+FrameHold {
+first_frame {{frame==deadFrame?frame+1:frame}}
+name FrameHold4
+label "Hold Frame After"
+xpos 629
+ypos -372
+}
+push $Ne8d5330
+FrameHold {
+first_frame {{frame==deadFrame?frame-1:frame}}
+name FrameHold7
+label "Hold Frame Before"
+xpos 374
+ypos -371
+}
+push $Nd8f5f30
+FrameHold {
+first_frame {{frame==deadFrame?frame-1:frame}}
+name FrameHold1
+xpos 80
+ypos -372
+}
+TimeWarp {
+lookup {{frame==deadFrame?frame+.5:frame C x1 1 x100 100}}
+time ""
+name TimeWarp1
+selected true
+xpos 80
+ypos -236
+}
+Switch {
+inputs 5
+which {{fixMethod}}
+name Switch2
+xpos 74
+ypos 252
+}
+Dot {
+name Dot3
+xpos 108
+ypos 322
+}
+push $N21491220
+Switch {
+inputs 2
+which {{frame==deadFrame?1:0}}
+name Switch1
+xpos -169
+ypos 319
+}
+Output {
+name Output1
+xpos -169
+ypos 396
+}
+end_group
