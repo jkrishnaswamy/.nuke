@@ -33,5 +33,7 @@ else:
 # ///////////////////////////////////////////////////////
 menubar = nuke.menu("Nodes")
 m = menubar.addMenu("jkrishTools")  # Rename me to whatever you want
-m.addCommand('Edge Scatter', 'import batchrenamer; batchrenamer.main()')
+m.addCommand('Edge Scatter', 'import EdgeScatter; EdgeScatter.gizmo()')
 
+
+myGizmos = nuke.menu('Nodes').addMenu('gizmos')
