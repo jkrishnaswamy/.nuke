@@ -1,0 +1,84 @@
+Gizmo {
+ name Rotate_Matrix
+ tile_color 0x7d92ff
+ selected true
+ xpos 344
+ ypos -168
+ addUserKnob {20 User}
+ addUserKnob {13 rot l rotation}
+ rot {47 -14 0}
+}
+ Input {
+  inputs 0
+  name Input1
+  xpos 0
+  ypos 64
+ }
+ Expression {
+  expr0 r-parent.pos.r
+  expr1 g-parent.pos.g
+  expr2 b-parent.pos.b
+  name Expression1
+  selected true
+  xpos 0
+  ypos 90
+ }
+ ColorMatrix {
+  matrix {
+      {{cos(radians(yrot))} 0 {-sin(radians(yrot))}}
+      {0 1 0}
+      {{sin(radians(yrot))} 0 {cos(radians(yrot))}}
+    }
+  name ColorMatrix14
+  label yrot
+  xpos 0
+  ypos 116
+  disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  addUserKnob {20 "" l User}
+  addUserKnob {7 yrot l "y rotation" R -90 90}
+  yrot {{parent.rot.y}}
+ }
+ ColorMatrix {
+  matrix {
+      {1 0 0}
+      {0 {cos(radians(xrot)) i} {sin(radians(xrot)) i}}
+      {0 {-sin(radians(xrot)) i} {cos(radians(xrot)) i}}
+    }
+  name ColorMatrix15
+  label "xrot\n"
+  xpos 0
+  ypos 154
+  disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0 i}}
+  addUserKnob {20 "" l User}
+  addUserKnob {7 xrot l "x rotation" R -90 90}
+  xrot {{parent.rot.x i}}
+ }
+ ColorMatrix {
+  matrix {
+      {{cos(radians(zrot))} {sin(radians(zrot))} 0}
+      {{-sin(radians(zrot))} {cos(radians(zrot))} 0}
+      {0 0 1}
+    }
+  name ColorMatrix13
+  label "zrot\n"
+  xpos 0
+  ypos 192
+  disable {{parent.rot.x==0?parent.rot.y==0?parent.rot.z==0?1:0:0:0}}
+  addUserKnob {20 "" l User}
+  addUserKnob {7 zrot l "z rotation" R -90 90}
+  zrot {{parent.rot.z}}
+ }
+ Expression {
+  expr0 r+parent.pos.r
+  expr1 g+parent.pos.g
+  expr2 b+parent.pos.b
+  name Expression2
+  xpos 0
+  ypos 230
+ }
+ Output {
+  name Output1
+  xpos 0
+  ypos 254
+ }
+end_group

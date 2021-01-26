@@ -1,7 +1,4 @@
-set cut_paste_input [stack 0]
-version 11.2 v4
-push $cut_paste_input
-Group {
+Gizmo {
 name DeadFrame
 help "This tool fixes broken frames from a render or otherwise.  Generally speaking the FrameBlend method is the most reliable way to use this tool, but occasionally one of the motion estimation methods will give good results, especially when using Kronos under nuke 9.\n\nEnter or select the number of the Dead Frame, then you can choose from the following Fix Methods:\n- Frame Blend (aka mix at .5) the previous and next frames\n- Hold the previous frame\n- Hold the next frame\n- Motion Estimate - creates a new frame based on the motion between the previous and next frames using an Oflow node.\n- Motion Estimate (Kronos...)  -  creates a new frame based on the motion between the previous and next frames using a Kronos node.  (this setting is for NukeX 9 only.)"
 knobChanged "\nk = nuke.thisKnob()\nif k.name() == 'fixMethod':\n    if k.getValue() == 4.0:\n        if nuke.NUKE_VERSION_MAJOR != 9:\n            k.setValue(3)\n            nuke.message('This feature is only available in NukeX 9 or higher')\n"

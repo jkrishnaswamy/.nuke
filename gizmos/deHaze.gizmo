@@ -1,0 +1,137 @@
+set cut_paste_input [stack 0]
+version 10.0 v4
+Input {
+ inputs 0
+ name Input1
+ selected true
+ xpos 224
+ ypos 24
+}
+Dot {
+ name Dot3
+ selected true
+ xpos 258
+ ypos 110
+}
+set N124682a0 [stack 0]
+Dot {
+ name Dot9
+ selected true
+ xpos 8
+ ypos 110
+}
+Dot {
+ name Dot8
+ selected true
+ xpos 8
+ ypos 442
+}
+set Nfd5fb90 [stack 0]
+Dot {
+ name Dot11
+ selected true
+ xpos 8
+ ypos 542
+}
+set Nfd64620 [stack 0]
+push $N124682a0
+Dot {
+ name Dot10
+ selected true
+ xpos 258
+ ypos 188
+}
+set Nfd69100 [stack 0]
+push $Nfd69100
+Blur {
+ size {{parent.size}}
+ name Blur2
+ selected true
+ xpos 76
+ ypos 178
+}
+Dot {
+ name Dot2
+ selected true
+ xpos 110
+ ypos 253
+}
+set Nd58173e0 [stack 0]
+FrameHold {
+ first_frame 1060
+ name FrameHold2
+ selected true
+ xpos 160
+ ypos 280
+}
+push $Nd58173e0
+FrameHold {
+ first_frame 1017
+ name FrameHold1
+ selected true
+ xpos 7
+ ypos 270
+}
+Dissolve {
+ inputs 2
+ which {{curve x1018 0 x1060 1}}
+ name Dissolve2
+ selected true
+ xpos 54
+ ypos 348
+}
+Merge2 {
+ inputs 2
+ operation divide
+ name Merge2
+ selected true
+ xpos 224
+ ypos 391
+}
+push $Nfd5fb90
+Merge2 {
+ inputs 2
+ operation multiply
+ name Merge3
+ selected true
+ xpos 224
+ ypos 438
+}
+Merge2 {
+ inputs 2
+ operation min
+ mix {{1-parent.mixhighlights}}
+ name Merge7
+ selected true
+ xpos 224
+ ypos 538
+}
+push $Nfd64620
+Dot {
+ name Dot1
+ selected true
+ xpos 8
+ ypos 641
+}
+Dissolve {
+ inputs 2
+ which {{parent.value}}
+ name Dissolve1
+ selected true
+ xpos 224
+ ypos 631
+}
+Output {
+ name Output1
+ selected true
+ xpos 224
+ ypos 722
+}
+push $Nd58173e0
+FrameHold {
+ first_frame 1049
+ name FrameHold3
+ selected true
+ xpos 76
+ ypos 293
+}

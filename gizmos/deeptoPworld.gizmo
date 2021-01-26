@@ -1,0 +1,72 @@
+Gizmo {
+ name Deep_MakePWorld4
+ tile_color 0x60ff
+ selected true
+ xpos -4782
+ ypos 2773
+}
+ Input {
+  inputs 0
+  name Camera
+  xpos -778
+  ypos -58
+  number 1
+ }
+ Constant {
+  inputs 0
+  color 1
+  name Constant3
+  label "rgba 1\nto creat rgb\nchannels in the\ndeep pass"
+  xpos -569
+  ypos -325
+  postage_stamp false
+ }
+ Input {
+  inputs 0
+  name Deep
+  xpos -786
+  ypos -201
+ }
+ DeepRecolor {
+  inputs 2
+  name DeepRecolor6
+  xpos -569
+  ypos -201
+ }
+ DeepReformat {
+  resize none
+  black_outside true
+  pbb true
+  name DeepReformat15
+  xpos -569
+  ypos -132
+ }
+ fDeepPWorld {
+  inputs 2
+  name fDeepPWorld2
+  xpos -569
+  ypos -58
+ }
+ DeepReformat {
+  resize none
+  black_outside true
+  pbb true
+  name DeepReformat16
+  xpos -569
+  ypos 23
+ }
+ Output {
+  name Output1
+  xpos -569
+  ypos 119
+ }
+ Viewer {
+  frame_range 1001-1350
+  fps 25
+  useGPUForInputs true
+  viewerProcess "Milton (P3)"
+  name Viewer1
+  xpos -486
+  ypos -5
+ }
+end_group

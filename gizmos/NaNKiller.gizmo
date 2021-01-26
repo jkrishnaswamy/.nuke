@@ -1,0 +1,190 @@
+Gizmo {
+name NaNbeGone
+help "Finds Negative, infinite, and NaN pixels and gives them an alpha value of 0 with the good pixels get a value of 1.  Then the input is premulted using that alpha, then merged atop a blurred version of the input to \"fill\" in the bad pixel.  \n\n"
+selected true
+xpos 8793
+ypos 13394
+addUserKnob {20 NaNbeGone l "Nan Be Gone"}
+addUserKnob {7 blurSize l "Blur Size" t "-controls the blurring of the surrounding pixels to fill in the dead pix." R 0 10}
+blurSize 1
+addUserKnob {4 alphaSwitch l "Alpha Channel:" M {"Do nothing" "Clamp blacks to zero" "Fill inf, nan and neg pixels with blur" ""}}
+alphaSwitch "Clamp blacks to zero"
+}
+Input {
+inputs 0
+name Input1
+xpos 462
+ypos 489
+}
+Dot {
+name Dot118
+xpos 496
+ypos 529
+}
+set N4e110fd0 [stack 0]
+Dot {
+name Dot2
+xpos 800
+ypos 529
+}
+set N41d72e80 [stack 0]
+Dot {
+name Dot1
+xpos 930
+ypos 529
+}
+set Nf1335a10 [stack 0]
+Shuffle {
+red alpha
+green alpha
+blue alpha
+name Shuffle9
+label alpha>red
+xpos 1007
+ypos 520
+}
+set N8fcf41c0 [stack 0]
+Expression {
+expr3 r<0||g<0||b<0||isinf(r)||isinf(g)||isinf(b)||isnan(r)||isnan(g)||isnan(b)?0:1
+name Expression5
+label <0?
+xpos 1156
+ypos 598
+disable {{curve}}
+}
+set N1796e940 [stack 0]
+Invert {
+channels alpha
+name Invert7
+xpos 1156
+ypos 670
+}
+push $N1796e940
+push $N8fcf41c0
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+name Copy8
+xpos 1007
+ypos 598
+}
+Premult {
+name Premult10
+xpos 1007
+ypos 697
+}
+set Nddf8a630 [stack 0]
+Blur {
+size {{blurSize}}
+name Blur10
+xpos 1007
+ypos 729
+}
+Unpremult {
+name Unpremult6
+xpos 1007
+ypos 776
+}
+push $Nddf8a630
+Merge2 {
+inputs 2+1
+bbox intersection
+name Merge86
+xpos 1156
+ypos 776
+}
+Shuffle {
+green red
+blue red
+alpha red
+name Shuffle19
+label RED
+xpos 1156
+ypos 831
+}
+push $Nf1335a10
+Clamp {
+channels alpha
+name Clamp1
+xpos 896
+ypos 731
+}
+push $N41d72e80
+Switch {
+inputs 3
+which {{alphaSwitch}}
+name Switch1
+xpos 766
+ypos 1026
+}
+push $N4e110fd0
+Expression {
+expr3 r<0||g<0||b<0||isinf(r)||isinf(g)||isinf(b)||isnan(r)||isnan(g)||isnan(b)?0:1
+name Expression1
+label <0?
+xpos 611
+ypos 597
+disable {{curve}}
+}
+set N9f2fea90 [stack 0]
+Invert {
+channels alpha
+name Invert3
+xpos 611
+ypos 665
+}
+push $N9f2fea90
+push $N4e110fd0
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+name Copy7
+xpos 462
+ypos 597
+}
+Premult {
+name Premult9
+xpos 462
+ypos 696
+}
+set Ne919c0b0 [stack 0]
+Blur {
+size {{blurSize}}
+name Blur3
+xpos 462
+ypos 727
+}
+Unpremult {
+name Unpremult5
+xpos 462
+ypos 775
+}
+push $Ne919c0b0
+Merge2 {
+inputs 2+1
+bbox intersection
+name Merge79
+xpos 611
+ypos 775
+}
+Copy {
+inputs 2
+from0 rgba.alpha
+to0 rgba.alpha
+name Copy11
+xpos 611
+ypos 1020
+}
+Dot {
+name Dot119
+xpos 645
+ypos 1265
+}
+Output {
+name Output1
+xpos 611
+ypos 1363
+}
+end_group
