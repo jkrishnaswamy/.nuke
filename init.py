@@ -4,6 +4,7 @@
 ## loaded by nuke before menu.py
  
 nuke.pluginAddPath('./gizmo')
+nuke.pluginAddPath('./pixelfudger')
 nuke.pluginAddPath('./icons')
 nuke.pluginAddPath('./python')
 
