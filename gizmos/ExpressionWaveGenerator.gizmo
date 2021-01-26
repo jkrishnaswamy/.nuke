@@ -1,6 +1,4 @@
-set cut_paste_input [stack 0]
-version 7.0 v3
-Group {
+Gizmo {
  inputs 0
  name ExpressionGenerator
  selected true
