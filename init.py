@@ -3,7 +3,7 @@
 ## init.py
 ## loaded by nuke before menu.py
  
-nuke.pluginAddPath('./gizmo')
+nuke.pluginAddPath('./gizmos')
 nuke.pluginAddPath('./pixelfudger')
 nuke.pluginAddPath('./icons')
 nuke.pluginAddPath('./python')
