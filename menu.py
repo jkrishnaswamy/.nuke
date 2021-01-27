@@ -79,3 +79,6 @@ nuke.knobDefault('MotionBlur3D.shutteroffset', "centered")
 nuke.knobDefault('Card3D.shutteroffset', "centered")
 nuke.knobDefault('CornerPin2D.shutteroffset', "centered")
 nuke.knobDefault('ScanlineRender.shutteroffset', "centered")
+
+###nuke.menu('Nuke').addCommand('Edit/Redo', 'nuke.redo()', 'Ctrl+Y')
+nuke.menu('Nuke').addCommand('Shuffle', 'nuke.createNode("Shuffle")', 'H')
