@@ -1,0 +1,446 @@
+Gizmo {
+ inputs 2
+ name pProject1
+ selected true
+ xpos 1523
+ ypos -768
+ addUserKnob {20 User}
+ addUserKnob {4 View M {Projection Matte "Culling Matte" UVs "" "" ""}}
+ addUserKnob {41 filter l "St Filter" T STMap1.filter}
+ addUserKnob {6 Filter l "2x SuperSample" +STARTLINE}
+ addUserKnob {26 ""}
+ addUserKnob {13 campos l "Camera Position"}
+ campos {{parent.pProject_Camera.translate} {parent.pProject_Camera.translate} {parent.pProject_Camera.translate}}
+ addUserKnob {13 camrot l "Camera Rotation"}
+ camrot {{parent.pProject_Camera.rotate} {parent.pProject_Camera.rotate} {parent.pProject_Camera.rotate}}
+ addUserKnob {7 fl l "Focal Length"}
+ fl {{parent.pProject_Camera.focal}}
+ addUserKnob {7 harp l "Horizontal Aperture"}
+ harp {{parent.pProject_Camera.haperture}}
+ addUserKnob {7 varp l "Vertical Aperture" -STARTLINE}
+ varp {{parent.pProject_Camera.vaperture}}
+ addUserKnob {26 ""}
+ addUserKnob {6 cutout l "Cut out" -STARTLINE}
+ addUserKnob {7 near l "Near Plane" R 0 50}
+ addUserKnob {7 NHard l "Near Hardness"}
+ NHard 2
+ addUserKnob {7 far l "Far Plane" R 0 50}
+ far 1000
+ addUserKnob {7 FHard l "Far Hardness"}
+ FHard 2
+ addUserKnob {7 Bias}
+ Bias 1
+ addUserKnob {6 Culling +STARTLINE}
+ addUserKnob {41 white l "Culling Hardness" T Grade2.white}
+ addUserKnob {26 ""}
+ addUserKnob {26 about l "" -STARTLINE T "pProject - theo@euqahuba.com - v0.75 2011"}
+ addUserKnob {1 FS_PROPERTY +HIDDEN}
+}
+ Input {
+  inputs 0
+  name Position
+  selected true
+  xpos 223
+  ypos -19
+ }
+set Na9beb00 [stack 0]
+ Expression {
+  temp_name0 distance
+  temp_expr0 sqrt(pow2(r-p.r)+pow2(g-p.g)+pow2(b-p.b))
+  temp_name1 range
+  temp_expr1 "min( (1-lerp(0,distance-parent.far,FHard)) ,(1-lerp(distance-parent.near,1,NHard)) )"
+  temp_name2 result
+  temp_expr2 range<1?(range>0?range:0):1
+  expr3 range
+  name NearFarMattes
+  selected true
+  xpos 223
+  ypos 21
+  addUserKnob {20 User}
+  addUserKnob {18 p l "" +STARTLINE}
+
+  p {{parent.campos.x} {parent.campos.y} {parent.campos.z}}
+  addUserKnob {6 p_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 p_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 p_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ }
+ ColorMatrix {
+  matrix {
+      {{cos(radians(yrot))} 0 {-sin(radians(yrot))}}
+      {0 1 0}
+      {{sin(radians(yrot))} 0 {cos(radians(yrot))}}
+    }
+  name ColorMatrix14
+  selected true
+  xpos 223
+  ypos 75
+  addUserKnob {20 "" l User}
+  addUserKnob {7 yrot l "" +STARTLINE R -90 90}
+  yrot {{parent.camrot.y}}
+ }
+ ColorMatrix {
+  matrix {
+      {1 0 0}
+      {0 {cos(radians(xrot))} {sin(radians(xrot))}}
+      {0 {-sin(radians(xrot))} {cos(radians(xrot))}}
+    }
+  name ColorMatrix15
+  selected true
+  xpos 223
+  ypos 99
+  addUserKnob {20 "" l User}
+  addUserKnob {7 xrot l "" +STARTLINE R -90 90}
+  xrot {{parent.camrot.x}}
+ }
+ ColorMatrix {
+  matrix {
+      {{cos(radians(zrot))} {sin(radians(zrot))} 0}
+      {{-sin(radians(zrot))} {cos(radians(zrot))} 0}
+      {0 0 1}
+    }
+  name ColorMatrix13
+  label "\n\n"
+  selected true
+  xpos 223
+  ypos 125
+  addUserKnob {20 "" l User}
+  addUserKnob {7 zrot l "z rotation" R -90 90}
+  zrot {{parent.camrot.z}}
+ }
+ Expression {
+  expr0 "(r / ((harp/2)/fl) / (-b)) * 0.5 + 0.5"
+  expr1 "(g / ((varp/2)/fl) / (-b)) * 0.5 + 0.5"
+  expr2 0
+  name UV
+  selected true
+  xpos 223
+  ypos 149
+  addUserKnob {20 User}
+  addUserKnob {7 harp}
+  harp {{parent.harp}}
+  addUserKnob {7 varp}
+  varp {{parent.varp}}
+  addUserKnob {7 fl}
+  fl {{parent.fl}}
+ }
+ Reformat {
+  type scale
+  scale 2
+  name Reformat2
+  selected true
+  xpos 223
+  ypos 229
+  disable {{1-Filter}}
+ }
+ Expression {
+  temp_name0 camFrustum
+  temp_expr0 "((r<0?0:1)*(r>1?0:1)) * (g<0?0:1)*(g>1?0:1)"
+  expr3 camFrustum*a
+  name Matte
+  selected true
+  xpos 223
+  ypos 283
+ }
+set N81e1ee0 [stack 0]
+ Dot {
+  name Dot2
+  selected true
+  xpos 349
+  ypos 288
+ }
+ Premult {
+  name Premult1
+  selected true
+  xpos 315
+  ypos 360
+ }
+ Dot {
+  name Dot3
+
+  selected true
+  xpos 349
+  ypos 453
+ }
+push $Na9beb00
+ Dot {
+  name Dot8
+  selected true
+  xpos 553
+  ypos -15
+ }
+set N81145f0 [stack 0]
+ Expression {
+  expr0 Lpos.r-r
+  expr1 Lpos.g-g
+  expr2 Lpos.b-b
+  name lightvec
+  selected true
+  xpos 409
+  ypos 196
+  addUserKnob {20 User}
+  addUserKnob {18 Lpos}
+  Lpos {{parent.input2.translate.x(pFrame) i} {parent.input2.translate.y(pFrame) i} {parent.input2.translate.z(pFrame) i}}
+  addUserKnob {6 Lpos_panelDropped l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Lpos_panelDropped_1 l "panel dropped state" -STARTLINE +HIDDEN}
+  addUserKnob {6 Lpos_panelDropped_1_1 l "panel dropped state" -STARTLINE +HIDDEN}
+ }
+ Expression {
+  temp_name0 length
+  temp_expr0 sqrt(pow2(r)+pow2(g)+pow2(b))+0.00001
+  expr0 r/(length+0.00001)
+  expr1 g/(length+0.00001)
+  expr2 b/(length+0.00001)
+  name normalize2
+  selected true
+  xpos 409
+  ypos 224
+ }
+push $N81145f0
+ Group {
+  name Position2Normal3
+  selected true
+  xpos 519
+  ypos 198
+  addUserKnob {20 User}
+  addUserKnob {7 Offset}
+  Offset 1
+ }
+  Input {
+   inputs 0
+   name Input1
+   xpos -381
+   ypos 412
+  }
+set N850ff00 [stack 0]
+  Dot {
+   name Dot1
+   xpos -241
+   ypos 516
+  }
+set Na5bccf0 [stack 0]
+push $Na5bccf0
+  Transform {
+   translate {{parent.Offset i} 0}
+   center {1024 778}
+   shuttercustomoffset 0.64
+   name Transform10
+   xpos -335
+   ypos 558
+  }
+  Merge2 {
+   inputs 2
+   operation minus
+   name Merge10
+   xpos -247
+   ypos 558
+  }
+  Expression {
+   temp_name0 length
+   temp_expr0 sqrt(Br*Br+Bg*Bg+Bb*Bb)+0.00001
+   expr0 (r/length)*val
+   expr1 (g/length)*val
+   expr2 (b/length)*val
+   name normalize9
+   xpos -247
+   ypos 586
+   addUserKnob {20 User}
+   addUserKnob {7 val t "\t\t" R 0 5}
+   val 1
+  }
+push $N850ff00
+  Dot {
+   name Dot2
+   xpos -507
+   ypos 502
+  }
+set Na31f770 [stack 0]
+push $Na31f770
+  Transform {
+   translate {0 {parent.Offset i}}
+   center {1024 778}
+   name Transform11
+   xpos -560
+   ypos 561
+  }
+  Merge2 {
+   inputs 2
+   operation minus
+   name Merge12
+   xpos -470
+   ypos 561
+  }
+  Expression {
+   temp_name0 length
+   temp_expr0 sqrt(Br*Br+Bg*Bg+Bb*Bb)+0.00001
+   expr0 (r/length)*val
+   expr1 (g/length)*val
+   expr2 (b/length)*val
+   name normalize8
+   xpos -470
+   ypos 587
+   addUserKnob {20 User}
+   addUserKnob {7 val t "\t\t" R 0 5}
+   val 1
+  }
+  MergeExpression {
+   inputs 2
+   temp_name0 x
+   temp_expr0 "Ag*Bb - Ab*Bg"
+   temp_name1 y
+   temp_expr1 "Ab*Br - Ar*Bb"
+   temp_name2 z
+   temp_expr2 "Ar*Bg - Ag*Br"
+   expr0 x
+   expr1 y
+   expr2 z
+   expr3 Ba
+   name DOT_PRODUCT
+   xpos -383
+   ypos 740
+   addUserKnob {20 "" l User}
+  }
+  Expression {
+   temp_name0 length
+   temp_expr0 sqrt(Br*Br+Bg*Bg+Bb*Bb)+0.00001
+   expr0 (r/length)*val
+   expr1 (g/length)*val
+   expr2 (b/length)*val
+   name normalize7
+   xpos -383
+   ypos 776
+   addUserKnob {20 User}
+   addUserKnob {7 val t "\t\t" R 0 5}
+   val 1
+  }
+  Output {
+   name Output1
+   xpos -383
+   ypos 866
+  }
+ end_group
+ MergeExpression {
+  inputs 2
+  expr3 (Ar*Br+Ag*Bg+Ab*Bb)+0.0001
+  name Point_Light
+  selected true
+  xpos 519
+  ypos 224
+ }
+ Grade {
+  channels alpha
+  gamma {{1/white}}
+  white_clamp true
+  name Grade2
+  selected true
+  xpos 519
+  ypos 250
+ }
+set Na2d5550 [stack 0]
+ Dot {
+  name Dot1
+  selected true
+  xpos 553
+  ypos 453
+ }
+push $Na2d5550
+ Reformat {
+  type scale
+  scale 2
+  name Reformat4
+  selected true
+  xpos 519
+  ypos 294
+  disable {{1-Filter i}}
+ }
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle5
+  selected true
+  xpos 519
+  ypos 322
+ }
+push $N81e1ee0
+ Merge2 {
+  inputs 2
+  operation multiply
+  Achannels alpha
+  Bchannels alpha
+  output alpha
+  name Merge3
+  selected true
+  xpos 223
+  ypos 315
+  disable {{1-parent.Culling i}}
+ }
+ ColorCorrect {
+  channels alpha
+  contrast {{parent.Bias i}}
+  name ColorCorrect1
+  selected true
+  xpos 223
+  ypos 357
+ }
+set Na242140 [stack 0]
+ Shuffle {
+  red alpha
+  green alpha
+  blue alpha
+  name Shuffle3
+  selected true
+  xpos 223
+  ypos 399
+ }
+push $Na242140
+push $N81e1ee0
+ Input {
+  inputs 0
+  name Texture
+  selected true
+  xpos 96
+  ypos -21
+  number 1
+ }
+ STMap {
+  inputs 2
+  uv rgb
+  blur_scale 0
+  name STMap1
+  selected true
+  xpos 96
+  ypos 276
+ }
+ Merge2 {
+  inputs 2
+  operation mask
+  name Merge1
+  selected true
+  xpos 96
+  ypos 363
+  disable {{1-cutout i}}
+ }
+ Reformat {
+  type scale
+  scale 0.5
+  name Reformat3
+  selected true
+  xpos 96
+  ypos 399
+  disable {{1-Filter i}}
+ }
+ Switch {
+  inputs 4
+  which {{View i}}
+  name Switch1
+  selected true
+  xpos 96
+  ypos 447
+ }
+ Output {
+  name Output1
+  selected true
+  xpos 96
+  ypos 501
+ }
+end_group
