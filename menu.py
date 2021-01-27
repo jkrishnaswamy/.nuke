@@ -70,6 +70,19 @@ m.addCommand('T_HeatDistortion', "nuke.tcl('T_HeatDistortion.gizmo')")
 m.addCommand('V_EdgeMatte', "nuke.tcl('V_EdgeMatte.gizmo')")
 m.addCommand('X_Tesla', "nuke.tcl('X_Tesla.gizmo')")
 
+m.addCommand('rotateMatrix', "nuke.tcl('rotateMatrix.gizmo')")
+m.addCommand('deHaze', "nuke.tcl('deHaze.gizmo')")
+m.addCommand('NaNKiller', "nuke.tcl('NaNKiller.gizmo')")
+m.addCommand('DeadFrames_v2', "nuke.tcl('DeadFrames_v2.gizmo')")
+m.addCommand('commonkeyer', "nuke.tcl('commonkeyer.gizmo')")
+m.addCommand('deeptoPworld', "nuke.tcl('deeptoPworld.gizmo')")
+m.addCommand('pproject', "nuke.tcl('pproject.gizmo')")
+m.addCommand('edgeMaster_v06', "nuke.tcl('edgeMaster_v06.gizmo')")
+
+
+
+
+
 nuke.knobDefault('Tracker4.shutteroffset', "centered")
 nuke.knobDefault('TimeBlur.shutteroffset', "centered")
 nuke.knobDefault('Transform.shutteroffset', "centered")
