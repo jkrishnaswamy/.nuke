@@ -1,0 +1,388 @@
+Gizmo {
+ name exponentialGlow3
+ selected true
+ xpos 93
+ ypos 3440
+ addUserKnob {20 User}
+ addUserKnob {7 falloff R 0.1 10}
+ falloff 1
+ addUserKnob {7 intensity R 0 10}
+ intensity 5
+ addUserKnob {7 size}
+ size 1
+ addUserKnob {41 multiply l tint T GradeCC.multiply}
+ addUserKnob {26 ""}
+ addUserKnob {7 xMult}
+ xMult 1
+ addUserKnob {7 yMult}
+ yMult 0.5
+ addUserKnob {26 ""}
+ addUserKnob {41 disable_1 l "Remove Background" T BGAdd.disable}
+ addUserKnob {20 keyer}
+ addUserKnob {41 range T Keyer1.range}
+}
+ StickyNote {
+  inputs 0
+  name StickyNote2
+  label "exponential glow\nfalloff 1\nintensity 5\nsize 1\n\nkeyer\npremult\nremove\ngrade\n-gain = intensity/100\n\nblur (9x, chacun est le double du precedant)\nxpercent = size\nypercent = xpercent/format.pixel_aspect/height*width\nmultiply1 =1\nmultyply2 = multyply1value/falloff\nmultyply3 = multyply2value/falloff\n(jusqu'a 9)\najouter un crop to format\net si on veut avoir la plate ou non"
+  xpos -340
+  ypos 377
+ }
+ Input {
+  inputs 0
+  name Input1
+  xpos 180
+  ypos 183
+ }
+ Dot {
+  name Dot3
+  xpos 208
+  ypos 228
+ }
+set N5ecb8940 [stack 0]
+ Keyer {
+  operation "luminance key"
+  name Keyer1
+  xpos 180
+  ypos 299
+ }
+set N7e887820 [stack 0]
+ Dot {
+  name Dot12
+  xpos 318
+  ypos 300
+ }
+ Dot {
+  name Dot13
+  xpos 318
+  ypos 396
+ }
+push $N7e887820
+ Copy {
+  inputs 2
+  from0 rgba.alpha
+  to0 mask.a
+  name Copy1
+  xpos 180
+  ypos 395
+ }
+set N614b5be0 [stack 0]
+ Premult {
+  name Premult7
+  xpos 180
+  ypos 447
+ }
+ Grade {
+  white {{parent.intensity/100}}
+  name GradeCC
+  xpos 180
+  ypos 471
+ }
+ Dot {
+  name Dot54
+  xpos 318
+  ypos 468
+ }
+set Naeee2300 [stack 0]
+ Dot {
+  name Dot53
+  xpos 428
+  ypos 468
+ }
+set Nd67e21a0 [stack 0]
+ Dot {
+  name Dot52
+  xpos 538
+  ypos 468
+ }
+set Nad15e440 [stack 0]
+ Dot {
+  name Dot55
+  xpos 648
+  ypos 468
+ }
+set N628ac2b0 [stack 0]
+ Dot {
+  name Dot56
+  xpos 758
+  ypos 468
+ }
+set Nc07d8560 [stack 0]
+ Dot {
+  name Dot49
+  xpos 868
+  ypos 468
+ }
+set N5ecaad30 [stack 0]
+ Dot {
+  name Dot51
+  xpos 978
+  ypos 468
+ }
+set N5ecabdf0 [stack 0]
+ Dot {
+  name Dot50
+  xpos 1088
+  ypos 468
+ }
+set N60daa690 [stack 0]
+ Dot {
+  name Dot48
+  xpos 1198
+  ypos 468
+ }
+ Blur {
+  size {{parent.Blur44.size.w*2} {parent.Blur44.size.h*2}}
+  name Blur45
+  label "\[value size]"
+  xpos 1170
+  ypos 582
+ }
+ Multiply {
+  value {{parent.falloffMult8.value/parent.falloff}}
+  name falloffMult9
+  xpos 1170
+  ypos 624
+ }
+ Dot {
+  name Dot11
+  xpos 1198
+  ypos 1452
+ }
+push $N60daa690
+ Blur {
+  size {{parent.Blur43.size.w*2} {parent.Blur43.size.h*2}}
+  name Blur44
+  label "\[value size]"
+  xpos 1060
+  ypos 582
+ }
+ Multiply {
+  value {{parent.falloffMult7.value/parent.falloff}}
+  name falloffMult8
+  xpos 1060
+  ypos 624
+ }
+ Dot {
+  name Dot10
+  xpos 1088
+  ypos 1380
+ }
+push $N5ecabdf0
+ Blur {
+  size {{parent.Blur42.size.w*2} {parent.Blur42.size.h*2}}
+  name Blur43
+  label "\[value size]"
+  xpos 950
+  ypos 582
+ }
+ Multiply {
+  value {{parent.falloffMult6.value/parent.falloff}}
+  name falloffMult7
+  xpos 950
+  ypos 624
+ }
+ Dot {
+  name Dot9
+  xpos 978
+  ypos 1308
+ }
+push $N5ecaad30
+ Blur {
+  size {{parent.Blur41.size.w*2} {parent.Blur41.size.h*2}}
+  name Blur42
+  label "\[value size]"
+  xpos 840
+  ypos 582
+ }
+ Multiply {
+  value {{parent.falloffMult5.value/parent.falloff}}
+  name falloffMult6
+  xpos 840
+  ypos 635
+ }
+ Dot {
+  name Dot8
+  xpos 868
+  ypos 1212
+ }
+push $Nc07d8560
+ Blur {
+  size {{parent.Blur38.size.w*2} {parent.Blur38.size.h*2}}
+  name Blur41
+  label "\[value size]"
+  xpos 730
+  ypos 582
+ }
+ Multiply {
+  value {{parent.falloffMult4.value/parent.falloff}}
+  name falloffMult5
+  xpos 730
+  ypos 635
+ }
+ Dot {
+  name Dot7
+  xpos 758
+  ypos 1092
+ }
+push $N628ac2b0
+ Blur {
+  size {{parent.Blur38.size.w*2} {parent.Blur38.size.h*2}}
+  name Blur40
+  label "\[value size]"
+  xpos 620
+  ypos 582
+ }
+ Multiply {
+  value {{parent.falloffMult3.value/parent.falloff}}
+  name falloffMult4
+  xpos 620
+  ypos 635
+ }
+ Dot {
+  name Dot6
+  xpos 648
+  ypos 972
+ }
+push $Nad15e440
+ Blur {
+  size {{parent.Blur23.size.w*2} {parent.Blur23.size.h*2}}
+  name Blur38
+  label "\[value size]"
+  xpos 510
+  ypos 582
+ }
+ Multiply {
+  value {{parent.falloffMult2.value/parent.falloff}}
+  name falloffMult3
+  xpos 510
+  ypos 635
+ }
+ Dot {
+  name Dot5
+  xpos 538
+  ypos 900
+ }
+push $Nd67e21a0
+ Blur {
+  size {{parent.Blur12.size.w*2} {parent.Blur12.size.h*2}}
+  name Blur23
+  label "\[value size]"
+  xpos 400
+  ypos 582
+ }
+ Multiply {
+  value {{parent.falloffMult1.value/parent.falloff}}
+  name falloffMult2
+  xpos 400
+  ypos 635
+ }
+ Dot {
+  name Dot4
+  xpos 428
+  ypos 804
+ }
+push $N5ecb8940
+ Dot {
+  name Dot2
+  xpos 98
+  ypos 228
+ }
+ Dot {
+  name Dot1
+  xpos 98
+  ypos 708
+ }
+push $Naeee2300
+ Blur {
+  size {{parent.size*parent.xMult} {(parent.size/format.pixel_aspect/height*width)*parent.yMult}}
+  name Blur12
+  label "\[value size]"
+  xpos 290
+  ypos 582
+ }
+ Multiply {
+  name falloffMult1
+  xpos 290
+  ypos 635
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name BGAdd
+  xpos 290
+  ypos 711
+  disable true
+ }
+set N618b8550 [stack 0]
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge2
+  xpos 290
+  ypos 807
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge3
+  xpos 290
+  ypos 903
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge4
+  xpos 290
+  ypos 975
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge5
+  xpos 290
+  ypos 1095
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge6
+  xpos 290
+  ypos 1215
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge7
+  xpos 290
+  ypos 1311
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge8
+  xpos 290
+  ypos 1383
+ }
+ Merge2 {
+  inputs 2
+  operation plus
+  name Merge9
+  xpos 290
+  ypos 1455
+ }
+ Output {
+  name Output1
+  xpos 290
+  ypos 1743
+ }
+push $N618b8550
+push $N614b5be0
+ Viewer {
+  inputs 2
+  frame_range 1-46
+  name Viewer1
+  xpos 730
+  ypos 831
+ }
+end_group
