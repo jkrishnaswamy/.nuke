@@ -1,0 +1,93 @@
+set cut_paste_input [stack 0]
+version 11.3 v4
+push $cut_paste_input
+Dot {
+name Dot102
+selected true
+xpos 21495
+ypos 10464
+}
+set N68e4aec0 [stack 0]
+Dot {
+name Dot103
+selected true
+xpos 21360
+ypos 10464
+}
+set N4abfd830 [stack 0]
+Dot {
+name Dot47
+selected true
+xpos 21196
+ypos 10464
+}
+TimeOffset {
+time_offset -1
+time ""
+name TimeOffset13
+label "\[value time_offset]"
+selected true
+xpos 21162
+ypos 10647
+}
+push $N4abfd830
+TimeOffset {
+time_offset 1
+time ""
+name TimeOffset15
+label "\[value time_offset]"
+selected true
+xpos 21326
+ypos 10643
+}
+Merge2 {
+inputs 2
+operation from
+name Merge34
+selected true
+xpos 21244
+ypos 10810
+}
+Expression {
+expr0 r*input.width/2
+expr1 g*input.height/2
+name Expression1
+label "\[value expr0]\n\[value expr1]"
+selected true
+xpos 21244
+ypos 10849
+}
+Multiply {
+value 2
+name Multiply10
+selected true
+xpos 21244
+ypos 10905
+}
+Dot {
+name Dot104
+selected true
+xpos 21278
+ypos 11018
+}
+push $N68e4aec0
+Copy {
+inputs 2
+from0 rgba.red
+to0 forward.u
+from1 rgba.green
+to1 forward.v
+name Copy4
+selected true
+xpos 21461
+ypos 10999
+}
+VectorBlur2 {
+uv forward
+scale 10
+name VectorBlur2
+label "Ammount :\[value scale]"
+selected true
+xpos 21461
+ypos 11107
+}

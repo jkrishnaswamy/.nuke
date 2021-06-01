@@ -1,0 +1,64 @@
+set cut_paste_input [stack 0]
+version 11.3 v4
+push $cut_paste_input
+Group {
+name DeGrainWorkflow
+selected true
+xpos -1123
+ypos 1622
+}
+Input {
+inputs 0
+name Input1
+xpos -341
+ypos 567
+}
+Colorspace {
+colorspace_out AlexaV3LogC
+name Colorspace2
+xpos -341
+ypos 607
+}
+Colorspace {
+colorspace_in sRGB
+name Colorspace3
+xpos -341
+ypos 635
+}
+OFXcom.absoft.neatvideo5_v5 {
+DNP ""
+ProfileName "no profile"
+NFP ""
+PresetName default
+ParamsHash1 0
+ParamsHash2 0
+ParamsHash3 0
+name "Reduce Noise v5_1"
+selected true
+xpos -341
+ypos 663
+disable true
+}
+Dot {
+name Dot33
+xpos -307
+ypos 701
+}
+Colorspace {
+colorspace_out sRGB
+name Colorspace4
+xpos -341
+ypos 731
+}
+Colorspace {
+colorspace_in AlexaV3LogC
+name Colorspace5
+xpos -341
+ypos 759
+}
+Output {
+name Output1
+xpos -341
+ypos 859
+}
+end_group

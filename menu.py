@@ -34,6 +34,11 @@ else:
 
 menubar = nuke.menu("Nodes")
 m = menubar.addMenu("jkrishTools")  # Rename me to whatever you want
+
+
+m.addCommand('DeGrainWorkflow', "nuke.tcl('DeGrainWorkflow.gizmo')")
+m.addCommand('MotionVectorBlur', "nuke.tcl('MotionVectorBlur.gizmo')")
+m.addCommand('quickSTmapWorkflow', "nuke.tcl('quickSTmapWorkflow.gizmo')")
 m.addCommand('EdgeScatter', "nuke.tcl('EdgeScatter.gizmo')")
 m.addCommand('AdditiveKeyer', "nuke.tcl('AdditiveKeyer.gizmo')")
 m.addCommand('AdditiveKeyer2', "nuke.tcl('AdditiveKeyer2.gizmo')")
@@ -81,8 +86,9 @@ m.addCommand('edgeMaster_v06', "nuke.tcl('edgeMaster_v06.gizmo')")
 
 
 
-
-
+nuke.knobDefault('Remove.label',"[value channels] \n [value channels2] \n [value channels3] \n [value channels4]")
+nuke.knobDefault('TimeOffset.label', "[value time_offset]")
+nuke.knobDefault('Shuffle.label', "[value in]")
 nuke.knobDefault('Tracker4.shutteroffset', "centered")
 nuke.knobDefault('TimeBlur.shutteroffset', "centered")
 nuke.knobDefault('Transform.shutteroffset', "centered")
@@ -95,3 +101,4 @@ nuke.knobDefault('ScanlineRender.shutteroffset', "centered")
 
 ###nuke.menu('Nuke').addCommand('Edit/Redo', 'nuke.redo()', 'Ctrl+Y')
 nuke.menu('Nuke').addCommand('Shuffle', 'nuke.createNode("Shuffle")', 'H')
+nuke.menu('Nuke').addCommand('quickSTmapWorkflow', 'nuke.createNode("quickSTmapWorkflow")', 'E')
