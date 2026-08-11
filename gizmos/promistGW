@@ -1,0 +1,113 @@
+set cut_paste_input [stack 0]
+version 14.1 v4
+push $cut_paste_input
+Group {
+name promistGW1
+selected true
+xpos 11033
+ypos 20870
+addUserKnob {20 User}
+addUserKnob {7 blursmall l "blur small" R 0 100}
+blursmall 3
+addUserKnob {7 blursmallmix l "blur small mix"}
+blursmallmix 0.855
+addUserKnob {7 blurmed l "blur medium" R 0 100}
+blurmed 12
+addUserKnob {7 blurmedmix l "blur medium mix"}
+blurmedmix 0.82
+addUserKnob {7 blurwide l "blur wide" R 0 100}
+blurwide 50
+addUserKnob {7 blurwidemix l "blur wide mix"}
+blurwidemix 0.885
+addUserKnob {26 ""}
+addUserKnob {7 mix}
+mix 0.4
+}
+Input {
+inputs 0
+name Input1
+xpos 810
+ypos 562
+}
+Dot {
+name Dot29
+xpos 844
+ypos 637
+}
+set N3efa45a0 [stack 0]
+Dot {
+name Dot28
+xpos 595
+ypos 637
+}
+set N3f114340 [stack 0]
+push $N3f114340
+Blur {
+size {{parent.blursmall.L}}
+name Blur_small
+xpos 451
+ypos 736
+}
+Dissolve {
+inputs 2
+which {{parent.blursmallmix.L}}
+name Dissolve_small
+xpos 451
+ypos 832
+}
+push $N3f114340
+Blur {
+size {{parent.blurmed.L}}
+name Blur_med
+xpos 561
+ypos 738
+}
+Dissolve {
+inputs 2
+which {{parent.blurmedmix.L}}
+name Dissolve_med
+xpos 561
+ypos 832
+}
+push $N3f114340
+Blur {
+size {{parent.blurwide.L}}
+name Blur_wide
+xpos 671
+ypos 740
+}
+set N3c1a06e0 [stack 0]
+Dissolve {
+inputs 2
+which {{parent.blurwidemix.L}}
+name Dissolve_wide
+xpos 671
+ypos 832
+}
+push $N3efa45a0
+Dissolve {
+inputs 2
+which {{parent.mix.L}}
+name Dissolve_mix
+xpos 810
+ypos 832
+}
+Output {
+name Output1
+xpos 810
+ypos 937
+}
+push $N3efa45a0
+push $N3c1a06e0
+Viewer {
+inputs 2
+frame_range 1-140
+input_number 1
+viewerProcess "Laika Tonemap (Display)"
+input_process_node LaikaViewer
+monitorOutNDISenderName "NukeX - untitled - Viewer1"
+name Viewer1
+xpos 286
+ypos 590
+}
+end_group
