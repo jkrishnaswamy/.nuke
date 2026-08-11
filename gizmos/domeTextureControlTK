@@ -1,0 +1,96 @@
+set cut_paste_input [stack 0]
+version 14.1 v4
+push $cut_paste_input
+Group {
+name domeTextureControlTK2
+selected true
+xpos 10883
+ypos -2666
+addUserKnob {20 User l domeTextureControlTK}
+addUserKnob {26 logo1 l "" +STARTLINE T "<font color=\"lightgreen\" size=\"6\">domeTextureControl</font><font color=\"#FFCC66\" size=\"6\">TK</font>"}
+addUserKnob {26 logo2 l "" +STARTLINE T "<font color=\"lightgreen\" size=\"2\">by Timur Khodzhaev</font>"}
+addUserKnob {26 ""}
+addUserKnob {6 coverage l Coverage +STARTLINE}
+addUserKnob {6 lut l LUT -STARTLINE}
+addUserKnob {7 OffsetX l Pan R -360 360}
+OffsetX 9
+addUserKnob {7 OffsetY l Tilt R -90 90}
+addUserKnob {41 rotate l Roll T Transform3.rotate}
+addUserKnob {41 scale l Zoom T Transform3.scale}
+addUserKnob {7 overscan l Overscan R 0 300}
+addUserKnob {6 quality l Quality +STARTLINE}
+addUserKnob {7 downres l "" -STARTLINE R 0.1 1}
+downres 1
+addUserKnob {26 ""}
+addUserKnob {41 translate T Transform3.translate}
+addUserKnob {41 center T Transform3.center}
+addUserKnob {20 version}
+addUserKnob {26 nodeClass l Class: T domeTextureControlTK}
+addUserKnob {26 nodeVersion l Version: T 1.0}
+}
+Input {
+inputs 0
+name Input1
+xpos 536
+ypos -348
+}
+Dot {
+name Dot1
+note_font_size 32
+note_font_color 0x808080ff
+xpos 570
+ypos -268
+}
+set N26647d60 [stack 0]
+Dot {
+name Dot2
+note_font_size 32
+note_font_color 0x808080ff
+xpos 714
+ypos -268
+}
+Expression {
+expr0 "(((x+0.5)/width +OffsetX*1/360) % 1 + 1) % 1"
+expr1 "(((y+0.5)/height + OffsetY*1/360) % 1 + 1) % 1"
+name UVs
+xpos 680
+ypos -206
+addUserKnob {20 User}
+addUserKnob {7 OffsetX l "Offset X" R -1 1}
+OffsetX {{parent.OffsetX}}
+addUserKnob {7 OffsetY l "Offset Y" R -1 1}
+OffsetY {{parent.OffsetY}}
+}
+push $N26647d60
+OCIOLogConvert {
+operation "lin to log"
+name OCIOLogConvert4
+xpos 536
+ypos -194
+}
+STMap {
+inputs 2
+uv rgb
+name STMap1
+xpos 536
+ypos -146
+}
+Transform {
+center {3790 3115}
+filter Mitchell
+name Transform3
+xpos 536
+ypos -101
+}
+OCIOLogConvert {
+operation "log to lin"
+name OCIOLogConvert5
+xpos 536
+ypos -75
+}
+Output {
+name Output1
+xpos 536
+ypos -41
+}
+end_group
