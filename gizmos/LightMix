@@ -1,0 +1,25 @@
+set cut_paste_input [stack 0]
+version 14.1 v4
+push $cut_paste_input
+Group {
+name LightMix6
+tile_color 0xc9f9ff
+gl_color 0x898989ff
+selected true
+xpos 9555
+ypos 9914
+addUserKnob {20 setup l Setup}
+addUserKnob {26 desc l "" +STARTLINE T "<font style=\"font-size:20px; color: cyan; word-wrap: normal;  \">&#128161; LightMix</font><br><br>\nThis tool allows you to automatically identify your light_AOVs<br> and breaks them apart. <br><br>\nIt provides the tools you need to relight your renders using<br> exposure and color.<br><br><br>\nAfter making any changes and getting approval, bake your<br> values back to Katana and compare the results.<br>"}
+addUserKnob {22 create_lightmix l "Get AOVs" T "from laika_nuke.toolsets.lightmix import lightmix_run\nlightmix_run()" +STARTLINE}
+}
+Input {
+inputs 0
+name Input1
+xpos 0
+}
+Output {
+name Output1
+xpos 0
+ypos 300
+}
+end_group
