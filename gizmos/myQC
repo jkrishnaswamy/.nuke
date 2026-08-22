@@ -1,0 +1,418 @@
+set cut_paste_input [stack 0]
+version 14.1 v4
+push 0
+push $cut_paste_input
+Group {
+ inputs 2
+ name myQC
+ selected true
+ xpos 7006
+ ypos 7692
+ addUserKnob {20 User}
+ addUserKnob {4 compQC l QC M {comp color "negative values" nan/inf "blacks - exposure" "blacks - gamma" "whites - exposure" "whites - gamma" grain "difference to plate" "comp vs plate" "" "" "" "" "" ""}}
+ compQC "negative values"
+}
+ Input {
+  inputs 0
+  name Comp
+  label "\[value name]"
+  xpos 774
+  ypos -521
+ }
+ Dot {
+  name Dot2
+  xpos 808
+  ypos -458
+ }
+set N1f7d9310 [stack 0]
+ Dot {
+  name Dot13
+  xpos 963
+  ypos -458
+ }
+set N1f7de220 [stack 0]
+ Dot {
+  name Dot12
+  xpos 1130
+  ypos -458
+ }
+set N1f7e33a0 [stack 0]
+ Dot {
+  name Dot15
+  note_font "Arial Black"
+  note_font_size 16
+  xpos 1323
+  ypos -456
+ }
+set N1f7e8570 [stack 0]
+ Dot {
+  name Dot11
+  xpos 1833
+  ypos -456
+ }
+set N1f7f1890 [stack 0]
+ Dot {
+  name Dot10
+  xpos 2304
+  ypos -456
+ }
+ Crop {
+  box {{curve} {curve} {width} {height}}
+  name Crop4
+  xpos 2270
+  ypos -370
+ }
+ Transform {
+  translate {{-width} {curve}}
+  center {1047 858}
+  shutteroffset centred
+  name Transform1
+  xpos 2270
+  ypos -193
+ }
+ Input {
+  inputs 0
+  name Plate
+  label "\[value name]"
+  xpos 2118
+  ypos -422
+  number 1
+ }
+ Crop {
+  box {{curve} {curve} {width} {height}}
+  name Crop2
+  xpos 2118
+  ypos -335
+ }
+set N1f819160 [stack 0]
+ Merge2 {
+  inputs 2
+  name Merge2
+  xpos 2118
+  ypos -193
+ }
+ Crop {
+  box {{-width} 0 {width} {height}}
+  reformat true
+  crop false
+  name Crop3
+  xpos 2118
+  ypos -167
+ }
+set N1f834a80 [stack 0]
+ Dot {
+  name Dot14
+  xpos 1861
+  ypos 111
+ }
+push $N1f819160
+ OCIOLogConvert {
+  operation "lin to log"
+  name OCIOLogConvert1
+  xpos 2008
+  ypos -335
+ }
+push $N1f7f1890
+ OCIOLogConvert {
+  operation "lin to log"
+  name OCIOLogConvert3
+  xpos 1799
+  ypos -361
+ }
+ Merge2 {
+  inputs 2
+  operation difference
+  name Merge1
+  xpos 1799
+  ypos -335
+ }
+ OCIOLogConvert {
+  operation "log to lin"
+  name OCIOLogConvert2
+  xpos 1799
+  ypos -309
+ }
+ EXPTool {
+  mode Stops
+  red 4
+  green 4
+  blue 4
+  name EXPTool1
+  xpos 1799
+  ypos -283
+ }
+ Dot {
+  name Dot16
+  note_font "Arial Black"
+  note_font_size 16
+  xpos 1531
+  ypos 87
+ }
+push $N1f7e8570
+ OCIOLogConvert {
+  operation "lin to log"
+  name OCIOLogConvert4
+  xpos 1292
+  ypos -368
+ }
+set N1f88dd20 [stack 0]
+ Blur {
+  channels rgba
+  size 5
+  name Blur13
+  xpos 1402
+  ypos -320
+ }
+push $N1f88dd20
+ Merge2 {
+  inputs 2
+  operation from
+  name Merge7
+  xpos 1292
+  ypos -248
+ }
+ OCIOLogConvert {
+  operation "lin to log"
+  name OCIOLogConvert5
+  xpos 1292
+  ypos -176
+ }
+set N1f8b8d70 [stack 0]
+push $N1f7e33a0
+ Gamma {
+  value 0.7
+  name Gamma_low1
+  xpos 1096
+  ypos -352
+ }
+push $N1f7de220
+ EXPTool {
+  mode Stops
+  red -7
+  green -7
+  blue -7
+  name EXPTool_low1
+  xpos 929
+  ypos -348
+ }
+push $N1f7d9310
+ Gamma {
+  value 5
+  name Gamma_high1
+  xpos 774
+  ypos -357
+ }
+push $N1f7d9310
+ Dot {
+  name Dot9
+  xpos 594
+  ypos -458
+ }
+set N1f8eb940 [stack 0]
+ EXPTool {
+  mode Stops
+  red 4
+  green 4
+  blue 4
+  name EXPTool_high1
+  xpos 560
+  ypos -344
+ }
+push $N1f8eb940
+ Dot {
+  name Dot7
+  xpos 456
+  ypos -458
+ }
+set N1f8ff160 [stack 0]
+ Dot {
+  name Dot6
+  xpos 120
+  ypos -458
+ }
+set N1f904390 [stack 0]
+ Expression {
+  expr0 isnan(r)
+  expr1 isnan(g)
+  expr2 isnan(b)
+  name check_nan
+  xpos 86
+  ypos -353
+ }
+set N1f909500 [stack 0]
+ Dilate {
+  size 10000
+  name Dilate3
+  xpos -24
+  ypos -359
+ }
+ Expression {
+  expr0 0
+  expr1 "clamp ( max (r,g,b), 0, 1)"
+  expr2 0
+  expr3 1
+  name Expression2
+  xpos -24
+  ypos -321
+ }
+push $N1f909500
+ Merge2 {
+  inputs 2
+  operation max
+  mix 0.1
+  name Merge5
+  xpos 86
+  ypos -321
+ }
+ Dot {
+  name Dot8
+  xpos 120
+  ypos -59
+ }
+push $N1f8ff160
+ Expression {
+  expr0 "r == inf"
+  expr1 "g == inf"
+  expr2 "b == inf "
+  name check_inf
+  xpos 422
+  ypos -239
+ }
+set N1f947380 [stack 0]
+ Dilate {
+  size 10000
+  name Dilate4
+  xpos 312
+  ypos -245
+ }
+ Expression {
+  expr0 0
+  expr1 0
+  expr2 "clamp ( max (r,g,b), 0, 1)"
+  expr3 1
+  name Expression3
+  xpos 312
+  ypos -207
+ }
+push $N1f947380
+ Merge2 {
+  inputs 2
+  operation max
+  mix 0.1
+  name Merge6
+  xpos 422
+  ypos -207
+ }
+ Merge2 {
+  inputs 2
+  operation max
+  name Merge4
+  xpos 422
+  ypos -63
+ }
+push $N1f904390
+ Dot {
+  name Dot5
+  selected true
+  xpos -348
+  ypos -458
+ }
+set N1f991280 [stack 0]
+ Expression {
+  expr0 "r > 0 ? 0 : 10"
+  expr1 "g > 0 ? 0 : 10"
+  expr2 "b > 0 ? 0 : 10"
+  name check_negative_values
+  selected true
+  xpos -382
+  ypos -357
+  addUserKnob {20 User}
+  addUserKnob {7 negativeValueWarning l Warning}
+ }
+set N1f996490 [stack 0]
+ Dilate {
+  size 10000
+  name Dilate2
+  selected true
+  xpos -512
+  ypos -363
+ }
+ Expression {
+  expr0 "clamp ( max (r,g,b), 0, 1)"
+  expr1 0
+  expr2 0
+  expr3 1
+  name Expression1
+  selected true
+  xpos -512
+  ypos -305
+ }
+push $N1f996490
+ Dilate {
+  channels rgb
+  size 5
+  name Dilate1
+  selected true
+  xpos -382
+  ypos -331
+ }
+ Merge2 {
+  inputs 2
+  operation max
+  mix 0.1
+  name Merge3
+  selected true
+  xpos -382
+  ypos -305
+ }
+push $N1f991280
+ Dot {
+  name Dot4
+  xpos -685
+  ypos -458
+ }
+set N1f9db7f0 [stack 0]
+ Saturation {
+  saturation 5
+  name Saturation4
+  xpos -719
+  ypos 73
+ }
+push $N1f9db7f0
+ Dot {
+  name Dot3
+  xpos -874
+  ypos -458
+ }
+ Dot {
+  name Dot1
+  xpos -874
+  ypos 175
+ }
+ Switch {
+  inputs 11
+  which {{compQC}}
+  name Switch1
+  xpos 774
+  ypos 362
+ }
+ Output {
+  name Output1
+  xpos 774
+  ypos 388
+ }
+push $N1f8b8d70
+push $N1f834a80
+ Viewer {
+  inputs 2
+  frame 7
+  frame_range 1-49
+  input_number 1
+  viewerProcess "raw (Display)"
+  input_process false
+  monitorOutNDISenderName "Nuke - 1900.0610.cmp.def.006 - Viewer1"
+  name Viewer1
+  xpos 1382
+  ypos 391
+ }
+end_group
