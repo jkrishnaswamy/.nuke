@@ -1,0 +1,410 @@
+set cut_paste_input [stack 0]
+version 14.1 v4
+push $cut_paste_input
+Group {
+name opticGlow
+help "Optic_Glow\nv08\n\nA glow with more falloff and control with a more optical and customizable then the standard glow.\n\nOutput\n-NONE    will do noting\n-Output  will do full glow on footage\n"
+tile_color 0xff00ff
+note_font "Bitstream Vera Sans"
+selected true
+xpos 4157
+ypos 15881
+mapsize {0.15 0.15}
+addUserKnob {20 Optic_GLW}
+addUserKnob {4 OUTPUT t "NONE - Node has no effect \nPREVIEW_EXTRACT - Displays the Extract result\nPREVIEW_GLW - Displays glow on black\nPREVIEW_MATTE - Displays matte\nOUTPUT_ON_BLACK - Outputs glow on black\nOUTPUT - Outputs glow in plus mode" M {NONE PREVIEW_EXTRACT PREVIEW_GLW PREVIEW_MATTE OUTPUT_ON_BLACK OUTPUT "" "" "" "" "" "" "" "" "" "" "" "" ""}}
+OUTPUT OUTPUT
+addUserKnob {41 blurQuality l Quality T NoOp1.blurQuality}
+addUserKnob {26 ""}
+addUserKnob {7 Extract R 0 10}
+addUserKnob {7 Extract_Falloff l "Extract Falloff" R 0 10}
+addUserKnob {7 Glow_Size l "Glow Size" t "Adjust master blur amount 0-whatever" R 0 10}
+Glow_Size 1
+addUserKnob {7 Glow_Intencity l "Glow Intencity" t "Adjust master gain 0-whatever" R 0 10}
+Glow_Intencity 1
+addUserKnob {7 Glow_Saturation l "Glow Saturation" t "Adjust master saturation 0-1" R 0 10}
+Glow_Saturation 1
+addUserKnob {41 value l Gamma T Gamma1.value}
+addUserKnob {7 Glow_Mix l "Glow Mix" t "Adjust opacity 0-1"}
+Glow_Mix 1
+addUserKnob {26 ""}
+addUserKnob {4 mattetype l "Matte Type" M {None "Bezier Input" "Channel Input"}}
+addUserKnob {20 endGroup n -1}
+addUserKnob {20 endGroup_1 l endGroup n -1}
+addUserKnob {41 in l "     Channel" T MatteChannels.in}
+}
+Input {
+inputs 0
+name plate
+xpos 440
+ypos -489
+}
+set N2a4a7090 [stack 0]
+Shuffle {
+in none
+red alpha
+green alpha
+blue alpha
+name MatteChannels
+label "\[value in]\nAlpha:\[value this.alpha]"
+xpos 332
+ypos -382
+}
+set N2a4b9d10 [stack 0]
+Input {
+inputs 0
+name Matte
+xpos 1
+ypos -435
+number 1
+}
+Shuffle {
+red alpha
+green alpha
+blue alpha
+name Shuffle1
+xpos 1
+ypos -285
+}
+set N2a4cfd90 [stack 0]
+Constant {
+inputs 0
+channels rgb
+color 1
+name Constant2
+xpos 212
+ypos -513
+}
+set N2a4e0e10 [stack 0]
+Switch {
+inputs 3
+which {{mattetype i}}
+name Switch2
+xpos 212
+ypos -285
+}
+push $N2a4a7090
+Merge2 {
+inputs 2
+operation multiply
+name Merge3
+xpos 440
+ypos -285
+}
+Grade {
+blackpoint {{parent.Extract i}}
+whitepoint {{blackpoint+1+Extract_Falloff i}}
+name Extract
+xpos 657
+ypos -285
+}
+set N2a5030c0 [stack 0]
+Blur {
+channels rgb
+size {{parent.Master.size*512 i}}
+quality {{"!\$gui ? 15 : \[string compare \[value NoOp1.blurQuality] \"Low\"] == 0 ? 5 : \[string compare \[value NoOp1.blurQuality] \"Med\"] == 0 ? 10 : 15" i}}
+crop false
+name Blur16
+xpos 878
+ypos 147
+}
+push $N2a5030c0
+Blur {
+channels rgb
+size {{parent.Master.size*256 i}}
+quality {{"!\$gui ? 15 : \[string compare \[value NoOp1.blurQuality] \"Low\"] == 0 ? 5 : \[string compare \[value NoOp1.blurQuality] \"Med\"] == 0 ? 10 : 15" i}}
+crop false
+name Blur15
+xpos 875
+ypos 99
+}
+push $N2a5030c0
+Blur {
+channels rgb
+size {{parent.Master.size*128 i}}
+quality {{"!\$gui ? 15 : \[string compare \[value NoOp1.blurQuality] \"Low\"] == 0 ? 5 : \[string compare \[value NoOp1.blurQuality] \"Med\"] == 0 ? 10 : 15" i}}
+crop false
+name Blur14
+xpos 876
+ypos 51
+}
+push $N2a5030c0
+Blur {
+channels rgb
+size {{parent.Master.size*64 i}}
+quality {{"!\$gui ? 15 : \[string compare \[value NoOp1.blurQuality] \"Low\"] == 0 ? 5 : \[string compare \[value NoOp1.blurQuality] \"Med\"] == 0 ? 10 : 15" i}}
+crop false
+name Blur13
+xpos 879
+ypos 3
+}
+push $N2a5030c0
+Blur {
+channels rgb
+size {{parent.Master.size*32 i}}
+quality {{"!\$gui ? 15 : \[string compare \[value NoOp1.blurQuality] \"Low\"] == 0 ? 5 : \[string compare \[value NoOp1.blurQuality] \"Med\"] == 0 ? 10 : 15" i}}
+crop false
+name Blur12
+xpos 877
+ypos -45
+}
+push $N2a5030c0
+Blur {
+channels rgb
+size {{parent.Master.size*16 i}}
+quality {{"!\$gui ? 15 : \[string compare \[value NoOp1.blurQuality] \"Low\"] == 0 ? 5 : \[string compare \[value NoOp1.blurQuality] \"Med\"] == 0 ? 10 : 15" i x1050 10}}
+crop false
+name Blur11
+xpos 877
+ypos -93
+}
+push $N2a5030c0
+Blur {
+channels rgb
+size {{parent.Master.size*8 i}}
+quality {{"!\$gui ? 15 : \[string compare \[value NoOp1.blurQuality] \"Low\"] == 0 ? 5 : \[string compare \[value NoOp1.blurQuality] \"Med\"] == 0 ? 10 : 15" i}}
+crop false
+name Blur10
+xpos 877
+ypos -141
+}
+push $N2a5030c0
+Blur {
+channels rgb
+size {{parent.Master.size*4 i}}
+quality {{"!\$gui ? 15 : \[string compare \[value NoOp1.blurQuality] \"Low\"] == 0 ? 5 : \[string compare \[value NoOp1.blurQuality] \"Med\"] == 0 ? 10 : 15" i}}
+crop false
+name Blur9
+xpos 877
+ypos -189
+}
+push $N2a5030c0
+Blur {
+channels rgb
+size {{parent.Master.size*2 i}}
+quality {{"!\$gui ? 15 : \[string compare \[value NoOp1.blurQuality] \"Low\"] == 0 ? 5 : \[string compare \[value NoOp1.blurQuality] \"Med\"] == 0 ? 10 : 15" i}}
+crop false
+name Blur7
+xpos 877
+ypos -237
+}
+push $N2a5030c0
+Blur {
+channels rgb
+size {{parent.Glow_Size i}}
+quality {{"!\$gui ? 15 : \[string compare \[value NoOp1.blurQuality] \"Low\"] == 0 ? 5 : \[string compare \[value NoOp1.blurQuality] \"Med\"] == 0 ? 10 : 15" i}}
+crop false
+name Master
+xpos 877
+ypos -285
+}
+push $N2a4e0e10
+Shuffle {
+in rgb
+red black
+green black
+blue black
+alpha black
+out rgb
+name Shuffle2
+xpos 1097
+ypos -395
+}
+set N2a5a3e80 [stack 0]
+Merge2 {
+inputs 2
+operation plus
+bbox B
+Achannels rgb
+Bchannels rgb
+name Merge9
+xpos 1097
+ypos -285
+}
+Merge2 {
+inputs 2
+operation plus
+bbox B
+Achannels rgb
+Bchannels rgb
+name Merge10
+xpos 1097
+ypos -237
+}
+Merge2 {
+inputs 2
+operation plus
+bbox B
+Achannels rgb
+Bchannels rgb
+name Merge11
+xpos 1097
+ypos -189
+}
+Merge2 {
+inputs 2
+operation plus
+bbox B
+Achannels rgb
+Bchannels rgb
+name Merge12
+xpos 1097
+ypos -141
+}
+Merge2 {
+inputs 2
+operation plus
+bbox B
+Achannels rgb
+Bchannels rgb
+name Merge13
+xpos 1097
+ypos -93
+}
+Merge2 {
+inputs 2
+operation plus
+bbox B
+Achannels rgb
+Bchannels rgb
+name Merge14
+xpos 1097
+ypos -45
+}
+Merge2 {
+inputs 2
+operation plus
+bbox B
+Achannels rgb
+Bchannels rgb
+name Merge15
+xpos 1097
+ypos 3
+}
+Merge2 {
+inputs 2
+operation plus
+bbox B
+Achannels rgb
+Bchannels rgb
+name Merge16
+xpos 1097
+ypos 51
+}
+Merge2 {
+inputs 2
+operation plus
+bbox B
+Achannels rgb
+Bchannels rgb
+name Merge17
+xpos 1097
+ypos 99
+}
+Merge2 {
+inputs 2
+operation plus
+bbox B
+Achannels rgb
+Bchannels rgb
+name Merge18
+xpos 1097
+ypos 147
+}
+Grade {
+white {{parent.Glow_Intencity i}}
+name Gain
+xpos 1097
+ypos 200
+}
+ColorCorrect {
+saturation {{parent.Glow_Saturation i}}
+name Saturation
+xpos 1097
+ypos 229
+}
+Gamma {
+name Gamma1
+xpos 1097
+ypos 259
+}
+set N2a6876e0 [stack 0]
+push $N2a4a7090
+Dot {
+name Dot1
+xpos 434
+ypos 306
+}
+set N2a6939c0 [stack 0]
+Merge2 {
+inputs 2
+operation plus
+Achannels rgb
+mix {{parent.Glow_Mix i}}
+name Merge1
+xpos 1097
+ypos 311
+}
+push $N2a6876e0
+push $N2a5a3e80
+Merge2 {
+inputs 2
+operation plus
+Achannels rgb
+Bchannels rgb
+mix {{parent.Glow_Mix}}
+name Merge2
+xpos 1400
+ypos 276
+}
+push $N2a4cfd90
+Dot {
+name Dot2
+xpos 204
+ypos 306
+}
+push $N2a6876e0
+push $N2a5030c0
+push $N2a6939c0
+Switch {
+inputs 6
+which {{OUTPUT}}
+name Switch1
+xpos 657
+ypos 643
+}
+Output {
+name Output1
+xpos 657
+ypos 685
+}
+StickyNote {
+inputs 0
+name StickyNote1
+label "\[string compare \[value NoOp1.blurQuality] \"Low\"] == 0 ? 5 : \[string compare \[value NoOp1.blurQuality] \"Med\"] == 0 ? 10 : 15"
+xpos 143
+ypos 684
+}
+NoOp {
+inputs 0
+name NoOp1
+xpos 513
+ypos 36
+addUserKnob {20 User}
+addUserKnob {4 blurQuality l "Blur Quality" M {Low Med High}}
+}
+push $N2a4a7090
+push $N2a4b9d10
+Viewer {
+inputs 2
+name Viewer1
+xpos 912
+ypos 709
+}
+Constant {
+inputs 0
+channels rgb
+name Constant1
+xpos -120
+ypos -522
+}
+end_group
